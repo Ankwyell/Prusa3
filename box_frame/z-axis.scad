@@ -121,8 +121,8 @@ module zrodholder(thickness=(i_am_box == 0 ? 14 : 15), bottom_thickness=5, ylen=
     }
 }
 translate([17 - board_to_x_distance, -23 - board_to_z_distance, 0]) zmotorholder();
-translate([17 - board_to_x_distance, 23 + board_to_z_distance, 0]) zmotorholder();
-//translate([-1 - z_delta, 53 + z_delta * 2, 0]) mirror([0, 1, 0]) zmotorholder();
+//translate([17 - board_to_x_distance, 23 + board_to_z_distance, 0]) zmotorholder();
+translate([-1 - z_delta, 53 + z_delta * 2, 0]) mirror([0, 1, 0]) zmotorholder();
 translate([67, 14, 0]) rotate([0,0,90]) 
 zrodholder();
 translate([77, -14, 0]) rotate([0, 0, -90]) mirror([0, 1, 0]) zrodholder();
