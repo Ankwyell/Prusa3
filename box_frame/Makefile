@@ -1,22 +1,22 @@
-#openscad -o output/bushing.stl bushing.scad
+#This makefile creates stl files in output folder from scad files.
 
-INCLUDES = $(wildcard inc/*.scad)
 
-MODELS = $(filter-out configuration.scad, $(wildcard *.scad))
 
-STL_FILES_1 = $(foreach src, $(MODELS),output/$(src))
-STL_FILES = $(STL_FILES_1:%.scad=%.stl)
+.PHONY: all
 
-all: $(STL_FILES)
+all: output/x-carriage.stl output/x-end.stl output/y-axis-bracket.stl output/y-axis-corner.stl output/y-belt-holder.stl \
+output/y-drivetrain.stl output/z-axis.stl output/extras/bearing-holder-single-plate-y.stl output/extras/calibrate.stl \
+output/extras/endstop-holder.stl output/extras/foldingclamp.stl output/extras/gregs-wade-v3.stl output/extras/groovemount.stl \
+output/extras/tube_clamp.stl output/extras/wade-gears.stl
 
-MODELS_EXTRAS = $(wildcard extras/*.scad)
-STL_EXTRAS_1 = $(foreach src, $(MODELS_EXTRAS),output/$(src))
-STL_EXTRAS = $(STL_EXTRAS_1:%.scad=%.stl)
+# explicit wildcard expansion suppresses errors when no files are found
+include $(wildcard *.deps)
 
-extras: $(STL_EXTRAS)
 
-output/%.stl: %.scad $(INCLUDES) configuration.scad
-	openscad -o $@ $<
+output/%.stl: %.scad
+	unset SESSION_MANAGER ; openscad -m make -o $@ -d $@.deps $<
+
+.PHONY: clean
 
 clean:
-	rm output/*.stl output/*.gcode output/extras/*.stl output/extras/*.gcode
+	rm output/*.stl output/extras/*.stl
